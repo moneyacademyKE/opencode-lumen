@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.2-gateway-default — Client Defaults to Cloudflare Gateway
+
+### Changed
+- The built-in `lumen-orchard` provider now defaults to the live Cloudflare
+  Workers gateway URL:
+  `https://lumen-orchard-gateway.iamkingori.workers.dev/v1`
+- OpenCode client builds published from this repo now point at the gateway by
+  default, so end users talk to the worker rather than the upstream directly.
+
+### Verified
+- Gateway-backed chat completion on the Cloudflare worker still returns a real
+  completion from Surplus.
+- Provider lock and catalog filtering tests still pass.
+
 ## v0.2.1-cloudflare — Gateway on Cloudflare Workers
 
 ### Added

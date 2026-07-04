@@ -66,6 +66,9 @@ export OPENCODE_LUMEN_ORCHARD_URL=https://lumen-orchard-gateway.<account>.worker
 export LUMEN_ORCHARD_API_KEY=<client token from POST /token>
 ```
 
+The published OpenCode client builds in this repo default to the live Cloudflare
+gateway URL above unless you override `OPENCODE_LUMEN_ORCHARD_URL`.
+
 ## Endpoints
 
 - `GET /health` — `{ ok: true, time }`

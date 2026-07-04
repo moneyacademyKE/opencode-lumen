@@ -5,7 +5,7 @@ import { ModelV2 } from "../../model"
 import { ProviderV2 } from "../../provider"
 
 const providerID = ProviderV2.ID.make("lumen-orchard")
-const endpoint = process.env.OPENCODE_LUMEN_ORCHARD_URL ?? "https://lumen-orchard.example.com/v1"
+const endpoint = process.env.OPENCODE_LUMEN_ORCHARD_URL ?? "https://lumen-orchard-gateway.iamkingori.workers.dev/v1"
 
 const models = ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini", "glm-5.2", "kimi-k2.7-code"] as const
 
