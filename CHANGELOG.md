@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.2.0-gateway — Lumen Orchard Gateway
+
+### Added
+- **`packages/gateway`** — minimal OpenAI-compatible gateway that holds the
+  real upstream credential server-side and exposes the Lumen Orchard surface
+  to OpenCode clients.
+  - Endpoints: `GET /health`, `POST /token`, `GET /v1/models`,
+    `POST /v1/chat/completions` (streaming-aware).
+  - Optional HMAC-signed short-lived client tokens (`GATEWAY_TOKEN_SECRET`).
+  - Model allowlist via `GATEWAY_ALLOWED_MODELS`.
+  - Streams `/chat/completions` straight through to the upstream.
+- **Tests** (`packages/gateway/test/gateway.test.ts`) — 10 cases covering
+  model allowlist, token issue/verify/expiry/tamper, auth gate, model
+  rejection, and upstream forwarding.
+- **End-to-end verified** against `api.surplusintelligence.ai/v1`:
+  `/v1/models`, non-streaming completion, and streaming completion all pass.
+
+### Why
+A locally distributed binary cannot keep an embedded secret. The gateway is
+the secrecy boundary: the upstream key lives only on the gateway server, and
+clients receive only short-lived tokens.
+
+### Setup
+```bash
+export SURPLUS_API_KEY=inf_xxx
+export GATEWAY_TOKEN_SECRET=$(openssl rand -hex 32)
+cd packages/gateway && bun run dev
+```
+See [`packages/gateway/README.md`](./packages/gateway/README.md).
+
+---
+
 ## v0.1.0-lumen — Provider Lock & Lumen Orchard Catalog
 
 ### Added

@@ -135,8 +135,9 @@ Built-in `lumen-orchard` models: `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`,
 `LUMEN_ORCHARD_API_KEY` (or `SURPLUS_API_KEY`).
 
 > **Secrecy boundary:** provider locking restricts the UI/catalog only. To keep
-> a real upstream key/endpoint secret, point `OPENCODE_LUMEN_ORCHARD_URL` at a
-> gateway you control and store the real credential there.
+> a real upstream key/endpoint secret, run the
+> [Lumen Orchard gateway](./packages/gateway/README.md) and point
+> `OPENCODE_LUMEN_ORCHARD_URL` at it; the gateway holds the real credential.
 
 ### Contributing
 

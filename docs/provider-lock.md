@@ -54,10 +54,11 @@ without extra user config.
 
 Provider locking hides nothing at the network layer. A locally running CLI or
 desktop app can be inspected for the endpoint it calls. To keep a real upstream
-key and endpoint secret, run a gateway:
+key and endpoint secret, run the gateway in `packages/gateway`:
 
 ```
 OpenCode -> OPENCODE_LUMEN_ORCHARD_URL (your gateway) -> real upstream
 ```
 
 The gateway holds the real credential; OpenCode only knows the gateway URL.
+See [`packages/gateway/README.md`](../packages/gateway/README.md).

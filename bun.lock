@@ -504,6 +504,16 @@
         "typescript": "catalog:",
       },
     },
+    "packages/gateway": {
+      "name": "@opencode-ai/gateway",
+      "version": "1.17.13",
+      "dependencies": {
+        "hono": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+      },
+    },
     "packages/http-recorder": {
       "name": "@opencode-ai/http-recorder",
       "version": "1.17.13",
@@ -1964,6 +1974,8 @@
     "@opencode-ai/enterprise": ["@opencode-ai/enterprise@workspace:packages/enterprise"],
 
     "@opencode-ai/function": ["@opencode-ai/function@workspace:packages/function"],
+
+    "@opencode-ai/gateway": ["@opencode-ai/gateway@workspace:packages/gateway"],
 
     "@opencode-ai/http-recorder": ["@opencode-ai/http-recorder@workspace:packages/http-recorder"],
 
