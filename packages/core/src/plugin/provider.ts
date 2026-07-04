@@ -16,6 +16,7 @@ import { GoogleVertexAnthropicPlugin, GoogleVertexPlugin } from "./provider/goog
 import { GroqPlugin } from "./provider/groq"
 import { KiloPlugin } from "./provider/kilo"
 import { LLMGatewayPlugin } from "./provider/llmgateway"
+import { LumenOrchardPlugin } from "./provider/lumen-orchard"
 import { MistralPlugin } from "./provider/mistral"
 import { NvidiaPlugin } from "./provider/nvidia"
 import { OpenAIPlugin } from "./provider/openai"
@@ -53,6 +54,7 @@ export const ProviderPlugins: PluginInternal.Plugin<PluginInternal.Requirements 
   GroqPlugin,
   KiloPlugin,
   LLMGatewayPlugin,
+  LumenOrchardPlugin,
   MistralPlugin,
   NvidiaPlugin,
   OpencodePlugin,

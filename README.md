@@ -116,6 +116,28 @@ Learn more about [agents](https://opencode.ai/docs/agents).
 
 For more info on how to configure OpenCode, [**head over to our docs**](https://opencode.ai/docs).
 
+### Fork: Provider Lock & Lumen Orchard
+
+This fork adds a single-provider lock and a built-in branded provider. See
+[`docs/provider-lock.md`](./docs/provider-lock.md) and [`CHANGELOG.md`](./CHANGELOG.md).
+
+Lock OpenCode to one provider:
+
+```jsonc
+{
+  "provider_lock": "lumen-orchard",
+  "model": "lumen-orchard/gpt-5.5"
+}
+```
+
+Built-in `lumen-orchard` models: `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`,
+`glm-5.2`, `kimi-k2.7-code`. Endpoint: `OPENCODE_LUMEN_ORCHARD_URL`. Credentials:
+`LUMEN_ORCHARD_API_KEY` (or `SURPLUS_API_KEY`).
+
+> **Secrecy boundary:** provider locking restricts the UI/catalog only. To keep
+> a real upstream key/endpoint secret, point `OPENCODE_LUMEN_ORCHARD_URL` at a
+> gateway you control and store the real credential there.
+
 ### Contributing
 
 If you're interested in contributing to OpenCode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.

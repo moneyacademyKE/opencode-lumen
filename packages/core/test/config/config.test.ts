@@ -241,6 +241,7 @@ describe("Config", () => {
           const file = path.join(tmp.path, "opencode.json")
           const contents = JSON.stringify({
             shell: "/bin/zsh",
+            provider_lock: "lumen-orchard",
             experimental: { policies: [{ effect: "deny", action: "provider.use", resource: "openai" }] },
             providers: { local: provider },
           })
@@ -252,12 +253,35 @@ describe("Config", () => {
 
             expect(documents[0]?.info.$schema).toBeUndefined()
             expect(documents[0]?.info.shell).toBe("/bin/zsh")
+            expect(documents[0]?.info.provider_lock).toBe("lumen-orchard")
             expect(documents[0]?.info.experimental?.policies?.[0]).toEqual({
               effect: "deny",
               action: "provider.use",
               resource: "openai",
             })
             expect(yield* Effect.promise(() => fs.readFile(file, "utf8"))).toBe(contents)
+          }).pipe(Effect.provide(testLayer(tmp.path)))
+        }),
+      ),
+    ),
+  )
+
+  it.live("loads provider lock as final provider policy", () =>
+    Effect.acquireRelease(
+      Effect.promise(() => tmpdir()),
+      (tmp) => Effect.promise(() => tmp[Symbol.asyncDispose]()),
+    ).pipe(
+      Effect.flatMap((tmp) =>
+        Effect.gen(function* () {
+          yield* Effect.promise(() =>
+            fs.writeFile(path.join(tmp.path, "opencode.json"), JSON.stringify({ provider_lock: "lumen-orchard" })),
+          )
+
+          return yield* Effect.gen(function* () {
+            const policy = yield* Policy.Service
+
+            expect(yield* policy.evaluate("provider.use", "lumen-orchard", "allow")).toBe("allow")
+            expect(yield* policy.evaluate("provider.use", "openai", "allow")).toBe("deny")
           }).pipe(Effect.provide(testLayer(tmp.path)))
         }),
       ),

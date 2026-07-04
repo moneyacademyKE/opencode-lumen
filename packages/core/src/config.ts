@@ -36,6 +36,9 @@ export class Info extends Schema.Class<Info>("Config.Info")({
   model: Schema.String.pipe(Schema.optional).annotate({
     description: "Default model to use when no session or agent model is selected",
   }),
+  provider_lock: Schema.String.pipe(Schema.optional).annotate({
+    description: "Restrict provider access to one provider ID",
+  }),
   default_agent: Schema.String.pipe(Schema.optional).annotate({
     description: "Default primary agent to use when no session agent is selected",
   }),
@@ -207,7 +210,15 @@ const layer = Layer.effect(
       configs
         .filter((config): config is Document => config.type === "document")
         .toReversed()
-        .flatMap((config) => config.info.experimental?.policies ?? []),
+        .flatMap((config) => [
+          ...(config.info.experimental?.policies ?? []),
+          ...(config.info.provider_lock === undefined
+            ? []
+            : [
+                new Policy.Info({ action: "provider.use", resource: "*", effect: "deny" }),
+                new Policy.Info({ action: "provider.use", resource: config.info.provider_lock, effect: "allow" }),
+              ]),
+        ]),
     )
 
     return Service.of({

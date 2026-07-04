@@ -350,4 +350,27 @@ describe("CatalogV2", () => {
       expect(yield* catalog.provider.get(providerID)).toBeUndefined()
     }),
   )
+
+  it.effect("keeps only the provider allowed by provider policy", () =>
+    Effect.gen(function* () {
+      const catalog = yield* Catalog.Service
+      const policy = yield* Policy.Service
+      const allowed = ProviderV2.ID.make("lumen-orchard")
+      const blocked = ProviderV2.ID.openai
+
+      yield* policy.load([
+        new Policy.Info({ effect: "deny", action: "provider.use", resource: "*" }),
+        new Policy.Info({ effect: "allow", action: "provider.use", resource: allowed }),
+      ])
+      yield* catalog.transform((catalog) => {
+        catalog.provider.update(allowed, () => {})
+        catalog.model.update(allowed, ModelV2.ID.make("gpt-5.5"), () => {})
+        catalog.provider.update(blocked, () => {})
+        catalog.model.update(blocked, ModelV2.ID.make("gpt-5"), () => {})
+      })
+
+      expect((yield* catalog.provider.all()).map((provider) => provider.id)).toEqual([allowed])
+      expect((yield* catalog.model.all()).map((model) => model.providerID)).toEqual([allowed])
+    }),
+  )
 })
