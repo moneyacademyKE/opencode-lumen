@@ -39,6 +39,33 @@ cd packages/gateway && bun run dev
 
 Deploy anywhere that runs Bun (or Node 18+ with `node --import tsx`).
 
+## Deploy to Cloudflare Workers
+
+The same Hono app runs on Cloudflare Workers via `worker.ts`. No code changes
+between the Bun and Workers runtimes — `src/app.ts` is pure Web.
+
+```bash
+cd packages/gateway
+
+# 1. Deploy the worker
+bunx wrangler deploy
+
+# 2. Push the real upstream key as a secret (never in the repo)
+echo -n "inf_xxx" | bunx wrangler secret put SURPLUS_API_KEY
+
+# 3. (Recommended) Lock clients behind short-lived HMAC tokens
+echo -n "$(openssl rand -hex 32)" | bunx wrangler secret put GATEWAY_TOKEN_SECRET
+```
+
+The worker is live at `https://lumen-orchard-gateway.<account>.workers.dev`.
+
+### Point OpenCode at the Cloudflare worker
+
+```bash
+export OPENCODE_LUMEN_ORCHARD_URL=https://lumen-orchard-gateway.<account>.workers.dev/v1
+export LUMEN_ORCHARD_API_KEY=<client token from POST /token>
+```
+
 ## Endpoints
 
 - `GET /health` — `{ ok: true, time }`

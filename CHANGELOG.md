@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.2.1-cloudflare — Gateway on Cloudflare Workers
+
+### Added
+- **Cloudflare Workers entry** (`packages/gateway/worker.ts`) — the same Hono
+  app now runs on Workers with zero logic duplication.
+- **`wrangler.toml`** — deploys as `lumen-orchard-gateway` on `workers.dev`.
+- **Pure-Web core** (`packages/gateway/src/app.ts`) — removed the `node:http`
+  and `Buffer` dependencies from the shared module so it runs on both Bun and
+  the Workers runtime. `src/index.ts` keeps the Bun `start()` server wrapper.
+- **Deploy + secret scripts** in `packages/gateway/package.json`
+  (`deploy`, `dev:worker`).
+
+### Deployed
+- Live worker: `https://lumen-orchard-gateway.iamkingori.workers.dev`
+- `SURPLUS_API_KEY` pushed as a Cloudflare secret (not in the repo).
+- `GATEWAY_TOKEN_SECRET` pushed; clients now require an HMAC token.
+- Verified end-to-end on Workers: `/health`, `/v1/models` (401 without token,
+  200 with token issued by `/token`), and `/v1/chat/completions`.
+
+---
+
 ## v0.2.0-gateway — Lumen Orchard Gateway
 
 ### Added

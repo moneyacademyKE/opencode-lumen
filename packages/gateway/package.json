@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "bun run src/index.ts",
     "start": "bun run src/index.ts",
+    "deploy": "wrangler deploy",
+    "dev:worker": "wrangler dev",
     "typecheck": "tsgo --noEmit",
     "test": "bun test --timeout 5000"
   },
